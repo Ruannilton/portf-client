@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const searchParams = useSearchParams();
-  const code = searchParams.get("code");
+  const code = searchParams!.get("code");
 
   useEffect(() => {
     if (code) {

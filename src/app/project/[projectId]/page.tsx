@@ -1,30 +1,11 @@
 import { getProject, getUser } from "@/lib/api/user_api";
 import { PageStructure } from "@/lib/components/pageStructure";
-import { Project } from "@/lib/models/project";
 
 type Props = {
   params: {
     projectId: Promise<number>;
   };
 };
-
-async function getProjectReadmOnGitHub(project: Project): Promise<string> {
-  const response = await fetch(
-    `https://api.github.com/repos/Ruannilton/Banking/contents/README.md`,
-    {
-      headers: {
-        Accept: "application/vnd.github.v3.raw",
-      },
-    }
-  );
-
-  if (!response.ok) {
-    return "";
-  }
-
-  const readme = await response.text();
-  return readme;
-}
 
 export default async function Home(props: Props) {
   const { projectId } = await props.params;
@@ -33,8 +14,6 @@ export default async function Home(props: Props) {
 
   const project = await getProject(await projectId);
   const user = await getUser(project.userId);
-
-  const readme = await getProjectReadmOnGitHub(project);
 
   return (
     <PageStructure user={user}>
