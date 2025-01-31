@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { User } from "../models/user";
 import Image from "next/image";
 
-function UserContacts(user: User) {
+function UserContacts() {
   return (
     <div className="flex flex-row justify-between items-center w-full">
       <img src="/github-svgrepo-com.svg" />
@@ -25,7 +24,7 @@ export function UserSideBar(user: User) {
       <a className="my-3 text-center font-sans text-2xl text-black ">
         {user.name}
       </a>
-      <UserContacts {...user} />
+      <UserContacts />
       <svg width="200" height="50">
         <line x1="0" y1="25" x2="200" y2="25" stroke="black" strokeWidth="1" />
       </svg>
