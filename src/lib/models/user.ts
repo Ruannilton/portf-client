@@ -3,5 +3,5 @@ export interface User {
   name: string;
   email: string;
   linkedIn: string | null;
-  github: string | null;
+  github: string;
 }
