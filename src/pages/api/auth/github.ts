@@ -39,6 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.redirect(`/dashboard/${user.id}`);
   } catch (error) {
+    console.log(error);
     res.redirect("/");
   }
 };
