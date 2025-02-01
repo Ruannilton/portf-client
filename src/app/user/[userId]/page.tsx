@@ -12,7 +12,7 @@ type Props = {
 
 function ProjectList({ projects }: { projects: Project[] }) {
   return (
-    <>
+    <div className="">
       <a className="text-5xl font-bold text-black"> Projects</a>
       <div className="my-2 border border-black"></div>
       <div className="grid grid-cols-2 gap-5">
@@ -59,7 +59,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -74,7 +74,7 @@ export default async function Home(props: Props) {
       <div className="col-span-2 col-start-1 bg-slate-200">
         <UserSideBar {...user} />
       </div>
-      <div className="col-start-3 col-end-12">
+      <div className="col-start-3 col-end-12 pt-5">
         <ProjectList projects={projects} />
       </div>
     </div>

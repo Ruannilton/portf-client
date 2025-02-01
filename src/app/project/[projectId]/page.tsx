@@ -58,7 +58,7 @@ export default async function Home(props: Props) {
       <div className="col-span-2 col-start-1 bg-slate-200">
         <UserSideBar {...user} />
       </div>
-      <div className="col-start-3 col-end-12">
+      <div className="col-start-3 col-end-12 pt-5">
         <ProjectDeails project={project} />
       </div>
     </div>
