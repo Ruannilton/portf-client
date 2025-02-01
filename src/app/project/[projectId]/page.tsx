@@ -1,22 +1,16 @@
 import { getProject, getUser } from "@/lib/api/user_api";
-import { PageStructure } from "@/lib/components/pageStructure";
+import { UserSideBar } from "@/lib/components/userSideBar";
+import { Project } from "@/lib/models/project";
 
 type Props = {
-  params: {
-    projectId: Promise<number>;
-  };
+  params: Promise<{
+    projectId: number;
+  }>;
 };
 
-export default async function Home(props: Props) {
-  const { projectId } = await props.params;
-  //  const response = await fetch(`http://localhost:3030/users/${id}`);
-  // const user = (await response.json()) as User;
-
-  const project = await getProject(await projectId);
-  const user = await getUser(project.userId);
-
+function ProjectDeails({ project }: { project: Project }) {
   return (
-    <PageStructure user={user}>
+    <>
       <div className="grid grid-cols-12 ">
         <div className="col-start-1 col-span-10 ">
           <div className="flex gap-2">
@@ -47,6 +41,26 @@ export default async function Home(props: Props) {
         {project.description}
       </div>
       <p className="text-2xl font-bold text-black my-3">Readme</p>
-    </PageStructure>
+    </>
+  );
+}
+
+export default async function Home(props: Props) {
+  const { projectId } = await props.params;
+  //  const response = await fetch(`http://localhost:3030/users/${id}`);
+  // const user = (await response.json()) as User;
+
+  const project = await getProject(projectId);
+  const user = await getUser(project.userId);
+
+  return (
+    <div className="bg-white grid grid-cols-12 gap-5 h-screen">
+      <div className="col-span-2 col-start-1 bg-slate-200">
+        <UserSideBar {...user} />
+      </div>
+      <div className="col-start-3 col-end-12">
+        <ProjectDeails project={project} />
+      </div>
+    </div>
   );
 }

@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       `user=${JSON.stringify(user)}; Path=/; HttpOnly`,
     ]);
 
-    res.redirect(`/dashboard/${user.id}`);
+    res.redirect(`/user/${user.id}`);
   } catch (error) {
     console.log(error);
     res.redirect("/");

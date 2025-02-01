@@ -1,12 +1,13 @@
 import { getUser, getUserProjects } from "@/lib/api/user_api";
 import Link from "next/link";
 import { Project } from "@/lib/models/project";
-import { PageStructure } from "@/lib/components/pageStructure";
+import { UserSideBar } from "@/lib/components/userSideBar";
+import Image from "next/image";
 
 type Props = {
-  params: {
-    userId: Promise<string>;
-  };
+  params: Promise<{
+    userId: string;
+  }>;
 };
 
 function ProjectList({ projects }: { projects: Project[] }) {
@@ -24,7 +25,12 @@ function ProjectList({ projects }: { projects: Project[] }) {
               <Link href={`/project/${project.id}`}>
                 <div className="col-start-1 col-span-2 ">
                   <div className="flex gap-2">
-                    <img src="/link-svgrepo-com.svg" />
+                    <Image
+                      src={"/link-svgrepo-com.svg"}
+                      width={20}
+                      height={20}
+                      alt={`/project/${project.id}`}
+                    />
                     <p className="text-xl text-black">{project.name}</p>
                   </div>
                 </div>
@@ -59,14 +65,18 @@ function ProjectList({ projects }: { projects: Project[] }) {
 
 export default async function Home(props: Props) {
   const { userId } = await props.params;
-  const userIdVal = await userId;
 
-  const user = await getUser(userIdVal);
-  const projects = await getUserProjects(userIdVal);
+  const user = await getUser(userId);
+  const projects = await getUserProjects(userId);
 
   return (
-    <PageStructure user={user}>
-      <ProjectList projects={projects} />
-    </PageStructure>
+    <div className="bg-white grid grid-cols-12 gap-5 h-screen">
+      <div className="col-span-2 col-start-1 bg-slate-200">
+        <UserSideBar {...user} />
+      </div>
+      <div className="col-start-3 col-end-12">
+        <ProjectList projects={projects} />
+      </div>
+    </div>
   );
 }

@@ -2,11 +2,16 @@ import { User } from "../models/user";
 import Image from "next/image";
 
 function UserContacts() {
+  const paths = [
+    "/github-svgrepo-com.svg",
+    "/email-1-svgrepo-com.svg",
+    "/linkedin-svgrepo-com.svg",
+  ];
   return (
     <div className="flex flex-row justify-between items-center w-full">
-      <img src="/github-svgrepo-com.svg" />
-      <img src="/email-1-svgrepo-com.svg" />
-      <img src="/linkedin-svgrepo-com.svg" />
+      {paths.map((path, i) => (
+        <Image width={32} height={32} src={path} key={i} alt={path} />
+      ))}
     </div>
   );
 }
