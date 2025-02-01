@@ -1,8 +1,10 @@
 import { Project } from "../models/project";
 import { User } from "../models/user";
-import dotenv from "dotenv";
 
-dotenv.config();
+import { loadEnvConfig } from "@next/env";
+
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
 
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3030";
 
