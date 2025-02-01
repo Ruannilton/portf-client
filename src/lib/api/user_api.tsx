@@ -29,5 +29,7 @@ export async function getProject(projectId: number) {
 }
 
 export function getGitHubAuth(): string {
-  return `${SERVER_URL}/auth/github`;
+  const authUrl = `${SERVER_URL}/auth/github`;
+  console.log(authUrl);
+  return authUrl;
 }
