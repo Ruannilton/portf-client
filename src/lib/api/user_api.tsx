@@ -27,3 +27,7 @@ export async function getProject(projectId: number) {
   const index = (projectId - 1) % projs.length;
   return projs[index];
 }
+
+export function getGitHubAuth(): string {
+  return `${SERVER_URL}/auth/github`;
+}

@@ -2,6 +2,7 @@ import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { getGitHubAuth } from "@/lib/api/user_api";
 
 export default function Home() {
   return (
@@ -20,7 +21,7 @@ export default function Home() {
             />
             <Link
               className="bg-black mx-5 mt-20 p-5 rounded-md hover:bg-gray-800"
-              href={"http://localhost:3030/auth/github"}
+              href={getGitHubAuth()}
             >
               Login with Github
             </Link>
