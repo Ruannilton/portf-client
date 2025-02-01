@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { fetchGitHubUser, getGitHubId } from "../api/user_api";
 import { User } from "../models/user";
 import Image from "next/image";
 
@@ -16,30 +18,36 @@ function UserContacts() {
   );
 }
 
-export function UserSideBar(user: User) {
+export async function UserSideBar(user: User) {
+  const githubId = await getGitHubId(user.id);
+
+  if (githubId == null) {
+    redirect("/");
+  }
+
+  const gitHubdata = await fetchGitHubUser(githubId);
+
+  if (gitHubdata == null) {
+    redirect("/");
+  }
+
   return (
     <div className="flex flex-col p-5">
       <Image
         className="rounded-full"
         width={200}
         height={200}
-        src="https://avatars.githubusercontent.com/u/44852912?v=4"
+        src={gitHubdata?.avatar_url}
         alt="github icon"
       />
       <a className="my-3 text-center font-sans text-2xl text-black ">
-        {user.name}
+        {gitHubdata.login}
       </a>
       <UserContacts />
       <svg width="200" height="50">
         <line x1="0" y1="25" x2="200" y2="25" stroke="black" strokeWidth="1" />
       </svg>
-      <a className="text-black">
-        Sou desenvolvedora web apaixonada por criar aplicações modernas,
-        eficientes e escaláveis. Tenho experiência com front-end e back-end,
-        utilizando tecnologias como JavaScript, TypeScript, React, Node.js e
-        .NET. Meu foco é construir interfaces intuitivas e soluções robustas que
-        proporcionam a melhor experiência para os usuários.
-      </a>
+      <a className="text-black">{gitHubdata.bio}</a>
     </div>
   );
 }
