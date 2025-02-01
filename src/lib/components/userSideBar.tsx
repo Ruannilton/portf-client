@@ -44,9 +44,7 @@ export async function UserSideBar(user: User) {
         {gitHubdata.login}
       </a>
       <UserContacts />
-      <svg width="200" height="50">
-        <line x1="0" y1="25" x2="200" y2="25" stroke="black" strokeWidth="1" />
-      </svg>
+      <div className="my-2 border border-black"></div>
       <a className="text-black">{gitHubdata.bio}</a>
     </div>
   );
