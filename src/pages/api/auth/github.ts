@@ -1,17 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { JwtToken } from "@/lib/models/jwtToken";
 import { User } from "@/lib/models/user";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const SERVER_URL = process.env.SERVER_URL || "http://localhost:3030";
 
 const getJwtToken = async (code: string): Promise<JwtToken> => {
   const response = await fetch(
-    `http://localhost:3030/auth/github/callback?code=${code}`
+    `${SERVER_URL}/auth/github/callback?code=${code}`
   );
   const data: JwtToken = await response.json();
   return data;
 };
 
 const getUser = async (token: string): Promise<User> => {
-  const response = await fetch("http://localhost:3030/auth/me", {
+  const response = await fetch(`{SERVER_URL}/auth/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
