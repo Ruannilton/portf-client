@@ -6,10 +6,10 @@ import { loadEnvConfig } from "@next/env";
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
-const SERVER_URL = process.env.SERVER_URL || "http://localhost:3030";
+const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
 
 export async function getUser(userId: string): Promise<User> {
-  const url = `${SERVER_URL}/user/${userId}`;
+  const url = `${SERVER_URL}/users/${userId}`;
   const response = await fetch(url);
   const user = (await response.json()) as User;
 

@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { JwtToken } from "@/lib/models/jwtToken";
 import { User } from "@/lib/models/user";
-import dotenv from "dotenv";
+import { loadEnvConfig } from "@next/env";
 
-dotenv.config();
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
 
-const SERVER_URL = process.env.SERVER_URL || "http://localhost:3030";
+const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
 
 const getJwtToken = async (code: string): Promise<JwtToken> => {
   const response = await fetch(
@@ -16,7 +17,7 @@ const getJwtToken = async (code: string): Promise<JwtToken> => {
 };
 
 const getUser = async (token: string): Promise<User> => {
-  const response = await fetch(`{SERVER_URL}/auth/me`, {
+  const response = await fetch(`${SERVER_URL}/auth/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
