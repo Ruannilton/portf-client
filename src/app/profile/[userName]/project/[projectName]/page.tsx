@@ -1,14 +1,26 @@
-import { getProject, getUser } from "@/lib/api/user_api";
+import { getProfile, getProjectProfile } from "@/app/serverActions";
 import { UserSideBar } from "@/lib/components/userSideBar";
 import { Project } from "@/lib/models/project";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{
-    projectId: number;
+    userName: string;
+    projectName: string;
   }>;
 };
 
 function ProjectDeails({ project }: { project: Project }) {
+  function formatDate(
+    date: Date | string | null,
+    repl: string = "Present"
+  ): string {
+    if (date == null) return repl;
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) return repl; // Invalid date
+    return dateObj.toLocaleDateString();
+  }
+
   return (
     <>
       <div className="grid grid-cols-12 ">
@@ -20,9 +32,9 @@ function ProjectDeails({ project }: { project: Project }) {
 
         <div className="col-span-2">
           <div className="flex flex-row justify-between text-black">
-            <a>{project.startDate?.toLocaleDateString()}</a>
+            <a>{formatDate(project.startDate, "")}</a>
             <a> - </a>
-            <a>{project.endDate?.toLocaleDateString() || "Present"}</a>
+            <a>{formatDate(project.endDate)}</a>
           </div>
         </div>
       </div>
@@ -46,17 +58,22 @@ function ProjectDeails({ project }: { project: Project }) {
 }
 
 export default async function Home(props: Props) {
-  const { projectId } = await props.params;
-  //  const response = await fetch(`http://localhost:3030/users/${id}`);
-  // const user = (await response.json()) as User;
+  const { userName, projectName } = await props.params;
+  const profile = await getProfile(userName);
+  const project = await getProjectProfile(userName, projectName);
 
-  const project = await getProject(projectId);
-  const user = await getUser(project.userId);
+  if (project == null) {
+    redirect(`/profile/${userName}`);
+  }
 
   return (
     <div className="bg-white grid grid-cols-12 gap-5 h-screen">
       <div className="col-span-2 col-start-1 bg-slate-200">
-        <UserSideBar {...user} />
+        <UserSideBar
+          bio={profile.bio}
+          name={profile.name}
+          userName={profile.github}
+        />
       </div>
       <div className="col-start-3 col-end-12 pt-5">
         <ProjectDeails project={project} />

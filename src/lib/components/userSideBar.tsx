@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { fetchGitHubUser, getGitHubId } from "../api/user_api";
-import { User } from "../models/user";
 import Image from "next/image";
+import { getGitHubData, goToUserPage } from "@/app/serverActions";
+import Form from "next/form";
 
 function UserContacts() {
   const paths = [
@@ -18,14 +18,21 @@ function UserContacts() {
   );
 }
 
-export async function UserSideBar(user: User) {
-  const githubId = await getGitHubId(user.id);
-
-  if (githubId == null) {
-    redirect("/");
+export async function UserSideBar({
+  userName,
+  name,
+  bio,
+}: {
+  userName: string;
+  name: string;
+  bio: string;
+}) {
+  async function goToUser() {
+    "use server";
+    await goToUserPage();
   }
 
-  const gitHubdata = await fetchGitHubUser(githubId);
+  const gitHubdata = await getGitHubData(userName);
 
   if (gitHubdata == null) {
     redirect("/");
@@ -40,12 +47,18 @@ export async function UserSideBar(user: User) {
         src={gitHubdata?.avatar_url}
         alt="github icon"
       />
-      <a className="my-3 text-center font-sans text-2xl text-black ">
-        {gitHubdata.login}
-      </a>
+      <a className="my-3 text-center font-sans text-2xl text-black ">{name}</a>
       <UserContacts />
       <div className="my-2 border border-black"></div>
-      <a className="text-black">{gitHubdata.bio}</a>
+      <a className="text-black">{bio}</a>
+      <Form action={goToUser}>
+        <button
+          type="submit"
+          className="border w-full border-black  rounded-md my-2 py-1 px-3 text-black"
+        >
+          My Page
+        </button>
+      </Form>
     </div>
   );
 }

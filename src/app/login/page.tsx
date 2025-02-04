@@ -1,8 +1,7 @@
 import React from "react";
 
 import Image from "next/image";
-import Link from "next/link";
-import { getGitHubAuth } from "@/lib/api/user_api";
+import { githubSignIn } from "../serverActions";
 
 export default function Home() {
   return (
@@ -19,12 +18,12 @@ export default function Home() {
               src="/github.png"
               alt="github icon"
             />
-            <Link
+            <button
               className="bg-black mx-5 mt-20 p-5 rounded-md hover:bg-gray-800"
-              href={getGitHubAuth()}
+              onClick={githubSignIn}
             >
               Login with Github
-            </Link>
+            </button>
           </div>
         </div>
       </div>

@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { JwtToken } from "@/lib/models/jwtToken";
 import { User } from "@/lib/models/user";
-import { loadEnvConfig } from "@next/env";
+import { envs } from "@/lib/api/loadEnv";
 
-const projectDir = process.cwd();
-loadEnvConfig(projectDir);
-
-const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
+const { SERVER_URL } = envs;
 
 const getJwtToken = async (code: string): Promise<JwtToken> => {
   const response = await fetch(
@@ -26,7 +23,7 @@ const getUser = async (token: string): Promise<User> => {
   return user;
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const api_function = async (req: NextApiRequest, res: NextApiResponse) => {
   const { code } = req.query;
 
   if (!code || typeof code !== "string") {
@@ -49,3 +46,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.redirect("/");
   }
 };
+
+export default api_function;
