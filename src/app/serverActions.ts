@@ -177,22 +177,3 @@ export async function goToUserPage(): Promise<void> {
   const userId = user.id;
   redirect(`/user/${userId}`);
 }
-
-export async function goToProfile(): Promise<void> {
-  const token = await getToken();
-  const path = `${SERVER_URL}/auth/me`;
-  const response = await fetch(path, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) redirect("/");
-
-  const user = (await response.json()) as User;
-
-  const userName = user.github;
-  redirect(`/profile/${userName}`);
-}

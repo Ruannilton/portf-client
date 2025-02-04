@@ -5,7 +5,6 @@ import ProjectCreator from "@/lib/components/projectCreator";
 import {
   getGitHubData,
   getUser,
-  goToProfile,
   updateUserBio,
   updateUserEmail,
   updateUserLinkedIn,
